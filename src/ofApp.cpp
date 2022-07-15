@@ -2,66 +2,30 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-#if defined(__linux__)
-	Dl_info dlinfo;
-	dladdr(reinterpret_cast<void*>(&main), &dlinfo);
-	std::string path = getParentPath(dlinfo.dli_fname);
-	std::string libNameADN = path + "/libAntilatencyDeviceNetwork.so";
-	std::string libNameTracking = path + "/libAntilatencyAltTracking.so";
-	std::string libNameEnvironmentSelector = path + "/libAntilatencyAltEnvironmentSelector.so";
-#else
-	std::string libNameADN = "AntilatencyDeviceNetwork";
-	std::string libNameTracking = "AntilatencyAltTracking";
-	std::string libNameEnvironmentSelector = "AntilatencyAltEnvironmentSelector";
-#endif
+
+	ofx::Antilatency::Setting setting;
+	
+	yaml.load("config.yaml");
+
+	//setup antilatency
+	setting.environment = yaml["environment"].as<std::string>();
+	setting.nextEnvironment = yaml["environment"].as<std::string>();
+	setting.placement = yaml["placement"].as<std::string>();
+	setting.extrapolateTime = yaml["extrapolateTime"].as<float>();
+	setting.trackingIntervalMilliseconds = yaml["trackingIntervalMilliseconds"].as<int>();
+	setting.statusOscIntervalMilliseconds = yaml["statusOscIntervalMilliseconds"].as<int>();
+
+	//setup osc
+	setting.oscOutAddress = yaml["oscOutAddress"].as<std::string>();
+	setting.oscOutPort = yaml["oscOutPort"].as<int>();
+	setting.oscInPort = yaml["oscInPort"].as<int>();
 
 
-	// Load the Antilatency Device Network library
-	Antilatency::DeviceNetwork::ILibrary deviceNetworkLibrary = Antilatency::InterfaceContract::getLibraryInterface<Antilatency::DeviceNetwork::ILibrary>(libNameADN.c_str());
-	if (deviceNetworkLibrary == nullptr) {
-		std::cout << "Failed to get Antilatency Device Network Library" << std::endl;
-	}
-
-	// Load the Antilatency Alt Tracking library
-	Antilatency::Alt::Tracking::ILibrary altTrackingLibrary = Antilatency::InterfaceContract::getLibraryInterface<Antilatency::Alt::Tracking::ILibrary>(libNameTracking.c_str());
-	if (altTrackingLibrary == nullptr) {
-		std::cout << "Failed to get Antilatency Alt Tracking Library" << std::endl;
-	}
-
-	// Load the Antilatency Alt Environment Selector library
-	Antilatency::Alt::Environment::Selector::ILibrary environmentSelectorLibrary = Antilatency::InterfaceContract::getLibraryInterface<Antilatency::Alt::Environment::Selector::ILibrary>(libNameEnvironmentSelector.c_str());
-	if (environmentSelectorLibrary == nullptr) {
-		std::cout << "Failed to get Antilatency Alt Environment Selector Library" << std::endl;
-	}
-
-	// Create a device network filter and then create a network using that filter.
-	Antilatency::DeviceNetwork::IDeviceFilter filter = deviceNetworkLibrary.createFilter();
-	filter.addUsbDevice(Antilatency::DeviceNetwork::Constants::AllUsbDevices);
-	Antilatency::DeviceNetwork::INetwork network = deviceNetworkLibrary.createNetwork(filter);
-	if (network == nullptr) {
-		std::cout << "Failed to create Antilatency Device Network" << std::endl;
-	}
-	std::cout << "Antilatency Device Network created" << std::endl;
-
-	//// Get environment serialized data.
-	//const std::string environmentData = argv[1];
-	//// Get placement serialized data.
-	//const std::string placementData = argv[2];
-
-	//// Create environment object from the serialized data.
-	//const Antilatency::Alt::Environment::IEnvironment environment = environmentSelectorLibrary.createEnvironment(environmentData);
-	//if (environment == nullptr) {
-	//	std::cout << "Failed to create environment" << std::endl;
-	//}
-
-	//// Create placement from the serialized data.
-	//const Antilatency::Math::floatP3Q placement = altTrackingLibrary.createPlacement(placementData);
-
-	//// Create alt tracking cotask constructor to find tracking-supported nodes and start tracking task on node.
-	//Antilatency::Alt::Tracking::ITrackingCotaskConstructor altTrackingCotaskConstructor = altTrackingLibrary.createTrackingCotaskConstructor();
-	//if (altTrackingCotaskConstructor == nullptr) {
-	//	std::cout << "Failed to create Antilatency Alt Tracking Cotask Constructor" << std::endl;
-	//}
+	//setup etc
+	int trackingLogLevel = yaml["trackingLogLevel"].as<int>();
+	setting.printConfig();
+	antilatency.setup(setting);
+	antilatency.start();
 }
 
 //--------------------------------------------------------------
@@ -76,7 +40,7 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-
+	if (key == 's')antilatency.stopThread();
 }
 
 //--------------------------------------------------------------
