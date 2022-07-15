@@ -30,3 +30,15 @@
 *.exe
 *.out
 *.app
+*.db
+*.ipch
+*.db-wal
+.vs/ofxAntilatency/v16/Solution.VC.db-shm
+*.opendb
+.vs/AntilatencyOSC/v16/.suo
+*.rc
+*.user
+*.filters
+*.sln
+*.vcxproj
+*.exp
