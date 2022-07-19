@@ -30,11 +30,146 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-
+	antilatency.getData(data);
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+	int rectWidth = ofGetWindowWidth() * 0.8;
+	int rectHeight = 15;
+
+	ofPushMatrix();
+	ofTranslate(30, 50);
+	ofDrawBitmapString("STATUS;", 0, 0);
+	switch (data.stability_stage)
+	{
+	case 0:
+		ofDrawBitmapStringHighlight("INITIALIZATION", 60, 0, ofColor::red);
+		break;
+	case 1:
+		ofDrawBitmapStringHighlight("3DoF", 60, 0, ofColor::yellow, ofColor::black);
+		break;
+	case 2:
+		ofDrawBitmapStringHighlight("6DoF", 60, 0, ofColor::green, ofColor::black);
+		break;
+	case 3:
+		ofDrawBitmapStringHighlight("6DoF BLIND", 60, 0, ofColor::yellow, ofColor::black);
+		break;
+	}
+
+	ofDrawBitmapString("STABILITY;", 120, 0);
+	float value = ofMap(data.stability, 0, 2, 0, 1, true);
+	drawSlider2(value, 210, -rectHeight + 3, 680, rectHeight);
+	ofSetColor(0);
+	ofDrawBitmapString(ofToString(data.stability), 220, 0);
+	ofSetColor(255);
+	ofPopMatrix();
+
+	ofSetColor(150);
+	ofDrawLine(80, 100, ofGetWidth() - 160, 100);
+	ofSetColor(255);
+
+	ofPushMatrix();
+	{
+		int x = 30, y = 150;
+		float value = data.position.x;
+		string title = "tx";
+		drawStr(title, value, x, y);
+		drawSlider(ofMap(value, -3, 3, -1, 1, true), x, y+10, rectWidth, rectHeight);
+	}
+	{
+		int x = 30, y = 200;
+		float value = data.position.y;
+		string title = "ty";
+		drawStr(title, value, x, y);
+		drawSlider(ofMap(value, -3, 3, -1, 1, true), x, y + 10, rectWidth, rectHeight);
+	}
+	{
+		int x = 30, y = 250;
+		float value = data.position.z;
+		string title = "tz";
+		drawStr(title, value, x, y);
+		drawSlider(ofMap(value, -3, 3, -1, 1, true), x, y + 10, rectWidth, rectHeight);
+	}
+	{
+		int x = 30, y =300;
+		float value = data.rotation.x;
+		string title = "rx";
+		drawStr(title, value, x, y);
+		drawSlider(ofMap(value, -PI, PI, -1, 1, true), x, y + 10, rectWidth, rectHeight);
+	}
+	{
+		int x = 30, y = 350;
+		float value = data.rotation.y;
+		string title = "ry";
+		drawStr(title, value, x, y);
+		drawSlider(ofMap(value, -PI, PI, -1, 1, true), x, y + 10, rectWidth, rectHeight);
+	}
+	{
+		int x = 30, y = 400;
+		float value = data.rotation.z;
+		string title = "rz";
+		drawStr(title, value, x, y);
+		drawSlider(ofMap(value, -PI, PI, -1, 1, true), x, y + 10, rectWidth, rectHeight);
+	}
+	{
+		int x = 30, y = 450;
+		float value = data.rotation.w;
+		string title = "rw";
+		drawStr(title, value, x, y);
+		drawSlider(ofMap(value, -PI, PI, -1, 1, true), x, y + 10, rectWidth, rectHeight);
+	}
+
+	ofSetColor(150);
+	ofDrawLine(80, 550, ofGetWidth() - 160, 550);
+	ofSetColor(255);
+
+	{
+		int x = 30, y = 600;
+		float value = data.acc.x;
+		string title = "acc_x";
+		drawStr(title, value, x, y);
+		drawSlider2(ofMap(value, -10, 10, -1, 1, true), x+100, y-10, rectWidth/3, rectHeight);
+	}
+	{
+		int x = 30, y = 650;
+		float value = data.acc.y;
+		string title = "acc_y";
+		drawStr(title, value, x, y);
+		drawSlider2(ofMap(value, -10, 10, -1, 1, true), x + 100, y - 10, rectWidth / 3, rectHeight);
+	}
+	{
+		int x = 30, y = 700;
+		float value = data.acc.z;
+		string title = "acc_z";
+		drawStr(title, value, x, y);
+		drawSlider2(ofMap(value, -10, 10, -1, 1, true), x + 100, y - 10, rectWidth / 3, rectHeight);
+	}
+	{
+		int x = ofGetWidth()/2 + 30, y = 600;
+		float value = data.angularAcc.x;
+		string title = "acc_rot_x";
+		drawStr(title, value, x, y);
+		drawSlider2(ofMap(value, -10, 10, -1, 1, true), x + 100, y - 10, rectWidth / 3, rectHeight);
+	}
+	{		
+		int x = ofGetWidth() / 2 + 30, y = 650;
+		float value = data.angularAcc.y;
+		string title = "acc_rot_y";
+		drawStr(title, value, x, y);
+		drawSlider2(ofMap(value, -10, 10, -1, 1, true), x + 100, y - 10, rectWidth / 3, rectHeight);
+	}
+	{
+		int x = ofGetWidth() / 2 + 30, y = 700;
+		float value = data.angularAcc.z;
+		string title = "acc_rot_z";
+		drawStr(title, value, x, y);
+		drawSlider2(ofMap(value, -10, 10, -1, 1, true), x + 100, y - 10, rectWidth / 3, rectHeight);
+	}
+
+
+	ofPopMatrix();
+
 
 }
 

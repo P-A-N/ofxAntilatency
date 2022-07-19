@@ -17,7 +17,7 @@ namespace ofx
 {
 	namespace Antilatency
 	{
-		struct Model
+		struct Data
 		{
 			int altStatus = 0; // 0: Preparing, 1: Not connected, 2: Connected
 			glm::vec3 position;
@@ -68,10 +68,18 @@ public:
 	void printTrackingStateShort(Antilatency::Alt::Tracking::State& state);
 	void printTrackingState(Antilatency::Alt::Tracking::State& state);
 
+	void getData(ofx::Antilatency::Data& data)
+	{
+		lock();
+		data = this->data;
+		unlock();
+	}
+
+
 
 private:
 	ofx::Antilatency::Setting setting;
-	ofx::Antilatency::Model model;
+	ofx::Antilatency::Data data;
 
 	Antilatency::DeviceNetwork::INetwork network;
 	Antilatency::Alt::Tracking::ITrackingCotaskConstructor altTrackingCotaskConstructor;

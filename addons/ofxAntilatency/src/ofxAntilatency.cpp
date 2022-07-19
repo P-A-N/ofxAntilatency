@@ -62,6 +62,7 @@ void ofxAntilatency::setup(ofx::Antilatency::Setting& setting)
 
 	sender.setup(setting.oscOutAddress, setting.oscOutPort);
 	std::cout << "Antilatency Setup Done" << std::endl;
+	waitForThread(true);
 }
 
 void ofxAntilatency::start()
@@ -87,7 +88,9 @@ void ofxAntilatency::threadedFunction()
 			const Antilatency::DeviceNetwork::NodeHandle trackingNode = getIdleTrackingNode(network, altTrackingCotaskConstructor);
 
 			if (trackingNode != Antilatency::DeviceNetwork::NodeHandle::Null) {
-				model.altStatus = 2;
+				lock();
+				data.altStatus = 2;
+				unlock();
 
 				// Create new environment if needed
 				Antilatency::Alt::Environment::IEnvironment newEnvironment = nullptr;
@@ -123,29 +126,30 @@ void ofxAntilatency::threadedFunction()
 							break;
 						}
 						Antilatency::Alt::Tracking::State state = altTrackingCotask.getExtrapolatedState(placement, extrapolateTime);
-						model.position.x = state.pose.position.x;
-						model.position.y = state.pose.position.y;
-						model.position.z = state.pose.position.z;
+						lock();
+						data.position.x = state.pose.position.x;
+						data.position.y = state.pose.position.y;
+						data.position.z = state.pose.position.z;
 
-						model.rotation.x = state.pose.rotation.x;
-						model.rotation.y = state.pose.rotation.y;
-						model.rotation.z = state.pose.rotation.z;
-						model.rotation.w = state.pose.rotation.w;
+						data.rotation.x = state.pose.rotation.x;
+						data.rotation.y = state.pose.rotation.y;
+						data.rotation.z = state.pose.rotation.z;
+						data.rotation.w = state.pose.rotation.w;
 
 
-						model.acc.x = state.velocity.x;
-						model.acc.y = state.velocity.y;
-						model.acc.z = state.velocity.z;
+						data.acc.x = state.velocity.x;
+						data.acc.y = state.velocity.y;
+						data.acc.z = state.velocity.z;
 
-						model.angularAcc.x = state.localAngularVelocity.x;
-						model.angularAcc.y = state.localAngularVelocity.y;
-						model.angularAcc.z = state.localAngularVelocity.z;
+						data.angularAcc.x = state.localAngularVelocity.x;
+						data.angularAcc.y = state.localAngularVelocity.y;
+						data.angularAcc.z = state.localAngularVelocity.z;
 
-						model.stability_stage = static_cast<int32_t>(state.stability.stage);
-						model.stability = state.stability.value;
+						data.stability_stage = static_cast<int32_t>(state.stability.stage);
+						data.stability = state.stability.value;
 
 						sendOSC();
-
+						unlock();
 						printTrackingState(state);
 						if(isThreadRunning()) std::this_thread::sleep_for(std::chrono::duration<double, std::milli>(trackingIntervalMilliseconds));
 					}
@@ -155,7 +159,9 @@ void ofxAntilatency::threadedFunction()
 			}
 		}
 		else {
-			model.altStatus = 1;
+			lock();
+			data.altStatus = 1;
+			unlock();
 			if(isThreadRunning())std::this_thread::sleep_for(std::chrono::milliseconds(10));
 		}
 	}
@@ -165,25 +171,25 @@ void ofxAntilatency::sendOSC()
 {
 	ofxOscMessage m;
 	m.setAddress("/tracking");
-	m.addFloatArg(model.position.x);
-	m.addFloatArg(model.position.y);
-	m.addFloatArg(model.position.z);
+	m.addFloatArg(data.position.x);
+	m.addFloatArg(data.position.y);
+	m.addFloatArg(data.position.z);
 
-	m.addFloatArg(model.rotation.x);
-	m.addFloatArg(model.rotation.y);
-	m.addFloatArg(model.rotation.z);
-	m.addFloatArg(model.rotation.w);
+	m.addFloatArg(data.rotation.x);
+	m.addFloatArg(data.rotation.y);
+	m.addFloatArg(data.rotation.z);
+	m.addFloatArg(data.rotation.w);
 
-	m.addIntArg(model.stability_stage);
-	m.addFloatArg(model.stability);
+	m.addIntArg(data.stability_stage);
+	m.addFloatArg(data.stability);
 
-	m.addFloatArg(model.acc.x);
-	m.addFloatArg(model.acc.y);
-	m.addFloatArg(model.acc.z);
+	m.addFloatArg(data.acc.x);
+	m.addFloatArg(data.acc.y);
+	m.addFloatArg(data.acc.z);
 
-	m.addFloatArg(model.angularAcc.x);
-	m.addFloatArg(model.angularAcc.y);
-	m.addFloatArg(model.angularAcc.z);
+	m.addFloatArg(data.angularAcc.x);
+	m.addFloatArg(data.angularAcc.y);
+	m.addFloatArg(data.angularAcc.z);
 	
 	sender.sendMessage(m);
 
@@ -222,7 +228,7 @@ void ofxAntilatency::printTrackingStateLong(Antilatency::Alt::Tracking::State& s
 }
 
 void ofxAntilatency::printTrackingStateShort(Antilatency::Alt::Tracking::State& state) {
-	std::cout << "Alt Status" << model.altStatus << " Tracking Stability: " << static_cast<int32_t>(state.stability.stage) << ", " << state.stability.value << std::endl;
+	std::cout << "Alt Status" << data.altStatus << " Tracking Stability: " << static_cast<int32_t>(state.stability.stage) << ", " << state.stability.value << std::endl;
 }
 
 void ofxAntilatency::printTrackingState(Antilatency::Alt::Tracking::State& state) {
