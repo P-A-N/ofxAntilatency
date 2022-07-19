@@ -40,15 +40,32 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
 	ofSetColor(255);
-	font.drawString("Antilatency OSC", 20, 50);
+	font.drawString("Antilatency OSC", 40, 60);
 
 	if (!flag_visualize)return;
 
 	int rectWidth = ofGetWindowWidth() * 0.8;
 	int rectHeight = 15;
+	
+	ofPushMatrix();
+	ofTranslate(50, 100);
+	ofDrawBitmapString("CONECTIVITY;", 0, 0);
+	switch (data.altStatus)
+	{
+	case 0:
+		ofDrawBitmapStringHighlight("connecting", 100, 0, ofColor::yellow);
+		break;
+	case 1:
+		ofDrawBitmapStringHighlight("not connected", 100, 0, ofColor::red, ofColor::black);
+		break;
+	case 2:
+		ofDrawBitmapStringHighlight("connected", 100, 0, ofColor::green, ofColor::black);
+		break;
+	}
+	ofPopMatrix();
 
 	ofPushMatrix();
-	ofTranslate(30, 100);
+	ofTranslate(50, 130);
 	ofDrawBitmapString("STATUS;", 0, 0);
 	switch (data.stability_stage)
 	{
@@ -75,11 +92,11 @@ void ofApp::draw(){
 	ofPopMatrix();
 
 	ofSetColor(150);
-	ofDrawLine(80, 150, ofGetWidth() - 160, 150);
+	ofDrawLine(80, 180, ofGetWidth() - 160, 180);
 	ofSetColor(255);
 
 	ofPushMatrix();
-	ofTranslate(30, 200);
+	ofTranslate(30, 230);
 	{
 		int x = 0, y = 0;
 		float value = data.position.x;

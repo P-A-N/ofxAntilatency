@@ -228,7 +228,9 @@ void ofxAntilatency::printTrackingStateLong(Antilatency::Alt::Tracking::State& s
 }
 
 void ofxAntilatency::printTrackingStateShort(Antilatency::Alt::Tracking::State& state) {
+	lock();
 	std::cout << "Alt Status" << data.altStatus << " Tracking Stability: " << static_cast<int32_t>(state.stability.stage) << ", " << state.stability.value << std::endl;
+	unlock();
 }
 
 void ofxAntilatency::printTrackingState(Antilatency::Alt::Tracking::State& state) {
