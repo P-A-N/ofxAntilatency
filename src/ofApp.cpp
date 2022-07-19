@@ -132,42 +132,42 @@ void ofApp::draw(){
 		float value = data.acc.x;
 		string title = "acc_x";
 		drawStr(title, value, x, y);
-		drawSlider2(ofMap(value, -10, 10, -1, 1, true), x+100, y-10, rectWidth/3, rectHeight);
+		drawSlider3(ofMap(value, -2, 2, -1, 1, true), x+100, y-10, rectWidth/3, rectHeight);
 	}
 	{
 		int x = 30, y = 650;
 		float value = data.acc.y;
 		string title = "acc_y";
 		drawStr(title, value, x, y);
-		drawSlider2(ofMap(value, -10, 10, -1, 1, true), x + 100, y - 10, rectWidth / 3, rectHeight);
+		drawSlider3(ofMap(value, -2, 2, -1, 1, true), x + 100, y - 10, rectWidth / 3, rectHeight);
 	}
 	{
 		int x = 30, y = 700;
 		float value = data.acc.z;
 		string title = "acc_z";
 		drawStr(title, value, x, y);
-		drawSlider2(ofMap(value, -10, 10, -1, 1, true), x + 100, y - 10, rectWidth / 3, rectHeight);
+		drawSlider3(ofMap(value, -2, 2, -1, 1, true), x + 100, y - 10, rectWidth / 3, rectHeight);
 	}
 	{
 		int x = ofGetWidth()/2 + 30, y = 600;
 		float value = data.angularAcc.x;
 		string title = "acc_rot_x";
 		drawStr(title, value, x, y);
-		drawSlider2(ofMap(value, -10, 10, -1, 1, true), x + 100, y - 10, rectWidth / 3, rectHeight);
+		drawSlider3(ofMap(value, -5, 5, -1, 1, true), x + 100, y - 10, rectWidth / 3, rectHeight);
 	}
 	{		
 		int x = ofGetWidth() / 2 + 30, y = 650;
 		float value = data.angularAcc.y;
 		string title = "acc_rot_y";
 		drawStr(title, value, x, y);
-		drawSlider2(ofMap(value, -10, 10, -1, 1, true), x + 100, y - 10, rectWidth / 3, rectHeight);
+		drawSlider3(ofMap(value, -5, 5, -1, 1, true), x + 100, y - 10, rectWidth / 3, rectHeight);
 	}
 	{
 		int x = ofGetWidth() / 2 + 30, y = 700;
 		float value = data.angularAcc.z;
 		string title = "acc_rot_z";
 		drawStr(title, value, x, y);
-		drawSlider2(ofMap(value, -10, 10, -1, 1, true), x + 100, y - 10, rectWidth / 3, rectHeight);
+		drawSlider3(ofMap(value, -5, 5, -1, 1, true), x + 100, y - 10, rectWidth / 3, rectHeight);
 	}
 
 

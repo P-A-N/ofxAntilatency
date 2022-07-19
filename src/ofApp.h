@@ -64,6 +64,17 @@ public:
 		ofDrawRectangle(0, 0, valu * width, height);
 		ofPopMatrix();
 	}
+
+	void drawSlider3(float valu, int x, int y, int width, int height)
+	{
+		ofPushMatrix();
+		ofTranslate(x, y);
+		ofNoFill();
+		ofDrawRectangle(0, 0, width, height);
+		ofFill();
+		ofDrawRectangle(width*0.5, 0, valu * width/2, height);
+		ofPopMatrix();
+	}
 	
 	int sameValueCounter = 0;
 	int rebootThresh = 10;
