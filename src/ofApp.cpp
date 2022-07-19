@@ -26,23 +26,29 @@ void ofApp::setup(){
 	setting.printConfig();
 	antilatency.setup(setting);
 	antilatency.start();
+
+	font.load("verdana.ttf", 30);
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
 	if (!flag_visualize)return;
 	antilatency.getData(data);
+	
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+	ofSetColor(255);
+	font.drawString("Antilatency OSC", 20, 50);
+
 	if (!flag_visualize)return;
 
 	int rectWidth = ofGetWindowWidth() * 0.8;
 	int rectHeight = 15;
 
 	ofPushMatrix();
-	ofTranslate(30, 50);
+	ofTranslate(30, 100);
 	ofDrawBitmapString("STATUS;", 0, 0);
 	switch (data.stability_stage)
 	{
@@ -69,54 +75,55 @@ void ofApp::draw(){
 	ofPopMatrix();
 
 	ofSetColor(150);
-	ofDrawLine(80, 100, ofGetWidth() - 160, 100);
+	ofDrawLine(80, 150, ofGetWidth() - 160, 150);
 	ofSetColor(255);
 
 	ofPushMatrix();
+	ofTranslate(30, 200);
 	{
-		int x = 30, y = 150;
+		int x = 0, y = 0;
 		float value = data.position.x;
 		string title = "tx";
 		drawStr(title, value, x, y);
 		drawSlider(ofMap(value, -3, 3, -1, 1, true), x, y+10, rectWidth, rectHeight);
 	}
 	{
-		int x = 30, y = 200;
+		int x = 0, y = 50;
 		float value = data.position.y;
 		string title = "ty";
 		drawStr(title, value, x, y);
 		drawSlider(ofMap(value, -3, 3, -1, 1, true), x, y + 10, rectWidth, rectHeight);
 	}
 	{
-		int x = 30, y = 250;
+		int x = 0, y = 100;
 		float value = data.position.z;
 		string title = "tz";
 		drawStr(title, value, x, y);
 		drawSlider(ofMap(value, -3, 3, -1, 1, true), x, y + 10, rectWidth, rectHeight);
 	}
 	{
-		int x = 30, y =300;
+		int x = 0, y = 150;
 		float value = data.rotation.x;
 		string title = "rx";
 		drawStr(title, value, x, y);
 		drawSlider(ofMap(value, -PI, PI, -1, 1, true), x, y + 10, rectWidth, rectHeight);
 	}
 	{
-		int x = 30, y = 350;
+		int x = 0, y = 200;
 		float value = data.rotation.y;
 		string title = "ry";
 		drawStr(title, value, x, y);
 		drawSlider(ofMap(value, -PI, PI, -1, 1, true), x, y + 10, rectWidth, rectHeight);
 	}
 	{
-		int x = 30, y = 400;
+		int x = 0, y = 250;
 		float value = data.rotation.z;
 		string title = "rz";
 		drawStr(title, value, x, y);
 		drawSlider(ofMap(value, -PI, PI, -1, 1, true), x, y + 10, rectWidth, rectHeight);
 	}
 	{
-		int x = 30, y = 450;
+		int x = 0, y = 300;
 		float value = data.rotation.w;
 		string title = "rw";
 		drawStr(title, value, x, y);
@@ -124,46 +131,46 @@ void ofApp::draw(){
 	}
 
 	ofSetColor(150);
-	ofDrawLine(80, 550, ofGetWidth() - 160, 550);
+	ofDrawLine(80, 350, ofGetWidth() - 160, 350);
 	ofSetColor(255);
 
 	{
-		int x = 30, y = 600;
+		int x = 30, y = 400;
 		float value = data.acc.x;
 		string title = "acc_x";
 		drawStr(title, value, x, y);
 		drawSlider3(ofMap(value, -2, 2, -1, 1, true), x+100, y-10, rectWidth/3, rectHeight);
 	}
 	{
-		int x = 30, y = 650;
+		int x = 30, y = 450;
 		float value = data.acc.y;
 		string title = "acc_y";
 		drawStr(title, value, x, y);
 		drawSlider3(ofMap(value, -2, 2, -1, 1, true), x + 100, y - 10, rectWidth / 3, rectHeight);
 	}
 	{
-		int x = 30, y = 700;
+		int x = 30, y = 500;
 		float value = data.acc.z;
 		string title = "acc_z";
 		drawStr(title, value, x, y);
 		drawSlider3(ofMap(value, -2, 2, -1, 1, true), x + 100, y - 10, rectWidth / 3, rectHeight);
 	}
 	{
-		int x = ofGetWidth()/2 + 30, y = 600;
+		int x = ofGetWidth()/2 + 30, y = 400;
 		float value = data.angularAcc.x;
 		string title = "acc_rot_x";
 		drawStr(title, value, x, y);
 		drawSlider3(ofMap(value, -5, 5, -1, 1, true), x + 100, y - 10, rectWidth / 3, rectHeight);
 	}
 	{		
-		int x = ofGetWidth() / 2 + 30, y = 650;
+		int x = ofGetWidth() / 2 + 30, y = 450;
 		float value = data.angularAcc.y;
 		string title = "acc_rot_y";
 		drawStr(title, value, x, y);
 		drawSlider3(ofMap(value, -5, 5, -1, 1, true), x + 100, y - 10, rectWidth / 3, rectHeight);
 	}
 	{
-		int x = ofGetWidth() / 2 + 30, y = 700;
+		int x = ofGetWidth() / 2 + 30, y = 500;
 		float value = data.angularAcc.z;
 		string title = "acc_rot_z";
 		drawStr(title, value, x, y);
