@@ -30,11 +30,14 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
+	if (!flag_visualize)return;
 	antilatency.getData(data);
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+	if (!flag_visualize)return;
+
 	int rectWidth = ofGetWindowWidth() * 0.8;
 	int rectHeight = 15;
 
@@ -176,6 +179,7 @@ void ofApp::draw(){
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
 	if (key == 's')antilatency.stopThread();
+	if (key == 'v') flag_visualize = !flag_visualize;
 }
 
 //--------------------------------------------------------------

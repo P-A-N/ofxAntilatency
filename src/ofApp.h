@@ -68,6 +68,7 @@ public:
 	int sameValueCounter = 0;
 	int rebootThresh = 10;
 	int trackingLogLevel;
+	bool flag_visualize = false;
 
 	ofx::Antilatency::Data data;
 	ofxAntilatency antilatency;
