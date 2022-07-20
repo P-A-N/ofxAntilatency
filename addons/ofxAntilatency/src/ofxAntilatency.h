@@ -42,15 +42,15 @@ namespace ofx
 			int oscInPort;
 
 			void printConfig() {
-				std::cout << "Config:" << std::endl;
-				std::cout << "\tOscOutAddress: " << oscOutAddress << std::endl;
-				std::cout << "\tOscOutPort: " << oscOutPort << std::endl;
-				std::cout << "\tOscInPort: " << oscInPort << std::endl;
-				std::cout << "\tEnvironment: " << environment << std::endl;
-				std::cout << "\tPlacement: " << placement << std::endl;
-				std::cout << "\tExtrapolateTime: " << extrapolateTime << std::endl;
-				std::cout << "\tTrackingIntervalMilliseconds: " << trackingIntervalMilliseconds << std::endl;
-				std::cout << "\tStatusOscIntervalMilliseconds: " << statusOscIntervalMilliseconds << std::endl;
+				ofLog() << "Config:";
+				ofLog() << "\tOscOutAddress: " << oscOutAddress;
+				ofLog() << "\tOscOutPort: " << oscOutPort;
+				ofLog() << "\tOscInPort: " << oscInPort;
+				ofLog() << "\tEnvironment: " << environment;
+				ofLog() << "\tPlacement: " << placement;
+				ofLog() << "\tExtrapolateTime: " << extrapolateTime;
+				ofLog() << "\tTrackingIntervalMilliseconds: " << trackingIntervalMilliseconds;
+				ofLog() << "\tStatusOscIntervalMilliseconds: " << statusOscIntervalMilliseconds;
 			}
 		};
 	}

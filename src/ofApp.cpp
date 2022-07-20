@@ -3,6 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 
+	ofLogToConsole();
 	ofx::Antilatency::Setting setting;
 	
 	yaml.load("config.yaml");

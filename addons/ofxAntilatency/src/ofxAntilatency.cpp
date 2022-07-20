@@ -43,7 +43,7 @@ void ofxAntilatency::setup(ofx::Antilatency::Setting& setting)
 	if (network == nullptr) {
 		ofLog() << "Failed to create Antilatency Device Network";
 	}
-	ofLog() << "Antilatency Device Network created";
+	ofLog	() << "Antilatency Device Network created";
 
 	// Create environment object from the serialized data.
 	environment = environmentSelectorLibrary.createEnvironment(setting.environment);
