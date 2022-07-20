@@ -42,3 +42,4 @@
 *.sln
 *.vcxproj
 *.exp
+*.tlog
