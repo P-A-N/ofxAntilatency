@@ -190,6 +190,8 @@ void ofxAntilatency::sendOSC()
 	m.addFloatArg(data.angularAcc.x);
 	m.addFloatArg(data.angularAcc.y);
 	m.addFloatArg(data.angularAcc.z);
+
+	m.addIntArg(data.altStatus);
 	
 	sender.sendMessage(m);
 
