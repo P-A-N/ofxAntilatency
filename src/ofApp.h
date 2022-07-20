@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "ofxAntilatency.h"
 #include "ofxYAML.h"
+#include "ofxOsc.h"
 
 
 class ofApp : public ofBaseApp {
@@ -38,7 +39,7 @@ public:
 
 	void drawStr(string title, float value, int x, int y)
 	{
-		ofDrawBitmapString(title, x, y);
+		ofDrawBitmapStringHighlight(title, x, y, ofColor::white, ofColor::black);
 		ofDrawBitmapString(ofToString(value), x + 100, y);
 	}
 
@@ -77,12 +78,43 @@ public:
 		ofPopMatrix();
 	}
 	
+	void sendOSC()
+	{
+		ofxOscMessage m;
+		m.setAddress("/tracking");
+		m.addFloatArg(data.position.x);
+		m.addFloatArg(data.position.y);
+		m.addFloatArg(data.position.z);
+
+		m.addFloatArg(data.rotation.x);
+		m.addFloatArg(data.rotation.y);
+		m.addFloatArg(data.rotation.z);
+		m.addFloatArg(data.rotation.w);
+
+		m.addIntArg(data.stability_stage);
+		m.addFloatArg(data.stability);
+
+		m.addFloatArg(data.acc.x);
+		m.addFloatArg(data.acc.y);
+		m.addFloatArg(data.acc.z);
+
+		m.addFloatArg(data.angularAcc.x);
+		m.addFloatArg(data.angularAcc.y);
+		m.addFloatArg(data.angularAcc.z);
+
+		m.addIntArg(data.altStatus);
+
+		sender.sendMessage(m);
+
+	}
+
 	int sameValueCounter = 0;
 	int rebootThresh = 10;
 	int trackingLogLevel;
-	bool flag_visualize = false;
+	bool flag_visualize = true;
 
 	ofx::Antilatency::Data data;
 	ofxAntilatency antilatency;
 	ofxYAML yaml;
+	ofxOscSender sender;
 };

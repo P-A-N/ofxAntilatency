@@ -28,13 +28,16 @@ void ofApp::setup(){
 	antilatency.start();
 
 	font.load("verdana.ttf", 30);
+
+	sender.setup(setting.oscOutAddress, setting.oscOutPort);
+	ofSetFrameRate(60);
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
 	if (!flag_visualize)return;
 	antilatency.getData(data);
-	
+	sendOSC();
 }
 
 //--------------------------------------------------------------
@@ -82,17 +85,17 @@ void ofApp::draw(){
 		ofDrawBitmapStringHighlight("6DoF BLIND", 60, 0, ofColor::yellow, ofColor::black);
 		break;
 	}
-
-	ofDrawBitmapString("STABILITY;", 120, 0);
+	ofTranslate(0, 30);
+	ofDrawBitmapString("STABILITY;", 0, 0);
 	float value = ofMap(data.stability, 0, 2, 0, 1, true);
-	drawSlider2(value, 210, -rectHeight + 3, 680, rectHeight);
+	drawSlider2(value, 120, -rectHeight + 3, 680, rectHeight);
 	ofSetColor(0);
 	ofDrawBitmapString(ofToString(data.stability), 220, 0);
 	ofSetColor(255);
 	ofPopMatrix();
 
 	ofSetColor(150);
-	ofDrawLine(80, 180, ofGetWidth() - 160, 180);
+	ofDrawLine(80, 200, ofGetWidth() - 160, 200);
 	ofSetColor(255);
 
 	ofPushMatrix();
