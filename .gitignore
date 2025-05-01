@@ -43,3 +43,6 @@
 *.vcxproj
 *.exp
 *.tlog
+
+obj/
+.vs/
