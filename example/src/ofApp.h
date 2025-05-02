@@ -2,8 +2,6 @@
 
 #include "ofMain.h"
 #include "ofxAntilatency.h"
-#include "ofxYAML.h"
-#include "ofxOsc.h"
 
 
 class ofApp : public ofBaseApp {
@@ -77,44 +75,19 @@ public:
 		ofDrawRectangle(width*0.5, 0, valu * width/2, height);
 		ofPopMatrix();
 	}
-	
-	void sendOSC()
-	{
-		ofxOscMessage m;
-		m.setAddress("/tracking");
-		m.addFloatArg(data.position.x);
-		m.addFloatArg(data.position.y);
-		m.addFloatArg(data.position.z);
 
-		m.addFloatArg(data.rotation.x);
-		m.addFloatArg(data.rotation.y);
-		m.addFloatArg(data.rotation.z);
-		m.addFloatArg(data.rotation.w);
-
-		m.addIntArg(data.stability_stage);
-		m.addFloatArg(data.stability);
-
-		m.addFloatArg(data.acc.x);
-		m.addFloatArg(data.acc.y);
-		m.addFloatArg(data.acc.z);
-
-		m.addFloatArg(data.angularAcc.x);
-		m.addFloatArg(data.angularAcc.y);
-		m.addFloatArg(data.angularAcc.z);
-
-		m.addIntArg(data.altStatus);
-
-		sender.sendMessage(m);
-
-	}
 
 	int sameValueCounter = 0;
 	int rebootThresh = 10;
 	int trackingLogLevel;
 	bool flag_visualize = true;
 
+	std::string initialEnvironmentData = "AAVSaWdpZBcABnllbGxvdwQEBAABAQMBAQEDAAEAAD_W";
+	std::string placementData = "AAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAA";
+	float extrapolateTime = 0.03f;
+	int trackingIntervalMilliseconds = 8;
+
+
 	ofx::Antilatency::Data data;
 	ofxAntilatency antilatency;
-	ofxYAML yaml;
-	ofxOscSender sender;
 };

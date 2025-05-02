@@ -5,32 +5,23 @@ void ofApp::setup(){
 
 	ofLogToConsole();
 	ofx::Antilatency::Setting setting;
-	
-	yaml.load("config.yaml");
 
 	//setup antilatency
-	setting.environment = yaml["environment"].as<std::string>();
-	setting.nextEnvironment = yaml["environment"].as<std::string>();
-	setting.placement = yaml["placement"].as<std::string>();
-	setting.extrapolateTime = yaml["extrapolateTime"].as<float>();
-	setting.trackingIntervalMilliseconds = yaml["trackingIntervalMilliseconds"].as<int>();
-	setting.statusOscIntervalMilliseconds = yaml["statusOscIntervalMilliseconds"].as<int>();
 
-	//setup osc
-	setting.oscOutAddress = yaml["oscOutAddress"].as<std::string>();
-	setting.oscOutPort = yaml["oscOutPort"].as<int>();
-	setting.oscInPort = yaml["oscInPort"].as<int>();
+	setting.environment = initialEnvironmentData;
+	setting.nextEnvironment = initialEnvironmentData;
+	setting.placement = placementData;
+	setting.extrapolateTime = extrapolateTime;
+	setting.trackingIntervalMilliseconds = trackingIntervalMilliseconds;
+
 
 
 	//setup etc
-	int trackingLogLevel = yaml["trackingLogLevel"].as<int>();
 	setting.printConfig();
 	antilatency.setup(setting);
 	antilatency.start();
 
 	font.load("verdana.ttf", 30);
-
-	sender.setup(setting.oscOutAddress, setting.oscOutPort);
 	ofSetFrameRate(60);
 }
 
@@ -38,13 +29,12 @@ void ofApp::setup(){
 void ofApp::update(){
 	if (!flag_visualize)return;
 	antilatency.getData(data);
-	sendOSC();
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
 	ofSetColor(255);
-	font.drawString("Antilatency OSC", 40, 60);
+	font.drawString("ofxAntilatency", 40, 60);
 
 	if (!flag_visualize)return;
 

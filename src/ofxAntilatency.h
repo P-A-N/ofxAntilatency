@@ -5,7 +5,6 @@
 //
 
 #include "ofMain.h"
-#include "ofxOsc.h"
 
 
 #include <Antilatency.InterfaceContract.LibraryLoader.h>
@@ -35,22 +34,15 @@ namespace ofx
 			string placement;
 			float extrapolateTime;
 			int trackingIntervalMilliseconds;
-			int statusOscIntervalMilliseconds;
 
-			std::string oscOutAddress;
-			int oscOutPort;
-			int oscInPort;
 
 			void printConfig() {
 				ofLog() << "Config:";
-				ofLog() << "\tOscOutAddress: " << oscOutAddress;
-				ofLog() << "\tOscOutPort: " << oscOutPort;
-				ofLog() << "\tOscInPort: " << oscInPort;
 				ofLog() << "\tEnvironment: " << environment;
+				ofLog() << "\tnextEnvironment: " << nextEnvironment;
 				ofLog() << "\tPlacement: " << placement;
 				ofLog() << "\tExtrapolateTime: " << extrapolateTime;
 				ofLog() << "\tTrackingIntervalMilliseconds: " << trackingIntervalMilliseconds;
-				ofLog() << "\tStatusOscIntervalMilliseconds: " << statusOscIntervalMilliseconds;
 			}
 		};
 	}
@@ -90,20 +82,12 @@ private:
 	Antilatency::Alt::Environment::IEnvironment environment;
 	Antilatency::Math::floatP3Q placement;
 
-	ofxOscSender sender;
-
-	void sendOSC();
 
 	// Each time the device network is changed due to connection or disconnection of a device that matches the device filter of the network,
 	// or start or stop of a task on any network device, the network update id is incremented by 1. 
 	int prevUpdateId = 0;
 
 	int trackingLogLevel = 0;
-
-	
-	std::string initialEnvironmentData = "AntilatencyAltEnvironmentHorizontalGrid~AgZ5ZWxsb3cEBLhTiT_cRqA-r45jvZqZmT4AAAAAAAAAAACamRk_AQQAAQEBAwABAAADAQE";
-	std::string placementData = "AAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAA";
 	float extrapolateTime = 0.03f;
 	int trackingIntervalMilliseconds = 8;
-	int statusOscIntervalMilliseconds = 100;
 };

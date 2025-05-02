@@ -46,3 +46,5 @@
 
 obj/
 .vs/
+*.ilk
+*.pdb
