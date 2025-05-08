@@ -5,12 +5,10 @@ void ofxAntilatency::setup(ofx::Antilatency::Setting& setting)
 {
 	this->setting = setting;
 #if defined(__linux__)
-	Dl_info dlinfo;
-	dladdr(reinterpret_cast<void*>(&main), &dlinfo);
-	std::string path = getParentPath(dlinfo.dli_fname);
-	std::string libNameADN = path + "/libAntilatencyDeviceNetwork.so";
-	std::string libNameTracking = path + "/libAntilatencyAltTracking.so";
-	std::string libNameEnvironmentSelector = path + "/libAntilatencyAltEnvironmentSelector.so";
+	std::string path = "../../libs/Bin/Linux/aarch64_linux_gnu/";
+	std::string libNameADN = path + "libAntilatencyDeviceNetwork.so";
+	std::string libNameTracking = path + "libAntilatencyAltTracking.so";
+	std::string libNameEnvironmentSelector = path + "libAntilatencyAltEnvironmentSelector.so";
 #else
 	std::string libNameADN = "AntilatencyDeviceNetwork";
 	std::string libNameTracking = "AntilatencyAltTracking";
