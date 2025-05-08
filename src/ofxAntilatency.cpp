@@ -5,7 +5,7 @@ void ofxAntilatency::setup(ofx::Antilatency::Setting& setting)
 {
 	this->setting = setting;
 #if defined(__linux__)
-	std::string path = "../../libs/Bin/Linux/aarch64_linux_gnu/";
+	std::string path = "./bin/";
 	std::string libNameADN = path + "libAntilatencyDeviceNetwork.so";
 	std::string libNameTracking = path + "libAntilatencyAltTracking.so";
 	std::string libNameEnvironmentSelector = path + "libAntilatencyAltEnvironmentSelector.so";
@@ -19,7 +19,7 @@ void ofxAntilatency::setup(ofx::Antilatency::Setting& setting)
 	// Load the Antilatency Device Network library
 	deviceNetworkLibrary = Antilatency::InterfaceContract::getLibraryInterface<Antilatency::DeviceNetwork::ILibrary>(libNameADN.c_str());
 	if (deviceNetworkLibrary == nullptr) {
-		ofLog() << "Failed to get Antilatency Device Network Library";
+		ofLog() << "..Failed to get Antilatency Device Network Library";
 	}
 
 	// Load the Antilatency Alt Tracking library
